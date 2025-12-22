@@ -61,9 +61,10 @@ function App() {
   const handleDropItem = ({ active, over }: DragEndEvent) => {
     console.log('active, over', active, over)
 
-    if (cards.some(card => card.cellId === over?.id)) return
+    if (cards.some(card => card.cellId === over?.id) && Boolean(over)) return
 
     const newCards = cards.map((card) => {
+      debugger
       if (card.id === active.id) {
         return { ...card, cellId: over?.id as string }
       }
