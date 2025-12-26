@@ -1,17 +1,19 @@
-import { useState, type ReactNode } from 'react';
-import { DndContext, useDraggable, type DragEndEvent, type UniqueIdentifier } from '@dnd-kit/core';
+import { useState } from 'react';
+import { DndContext, useDraggable, type DragEndEvent } from '@dnd-kit/core';
 import { Draggable, DraggableOverlay, Droppable } from './components';
+import { shuffleArray } from './utils';
+import { GAME_CARDS, GAME_CELLS, type Card, type Cell } from './constants';
 
-type DraggableItemProps = {
-  id: string
-  value: string
-  content: ReactNode
-  cellId?: string
+import './App.css'
+
+export type DraggableItemProps = {
+  card: Card
+  showResult: boolean
 }
 
-function DraggableItem({ id, content }: DraggableItemProps) {
+function DraggableItem({ card, showResult }: DraggableItemProps) {
   const { isDragging, setNodeRef, listeners } = useDraggable({
-    id
+    id: card.id, disabled: showResult
   });
 
   return (
@@ -22,51 +24,32 @@ function DraggableItem({ id, content }: DraggableItemProps) {
       style={{
         opacity: isDragging ? 0 : undefined,
       }}
-    >{content}</Draggable>
+    >{card.content}</Draggable>
   );
 }
 
-function shuffleArray(array: DraggableItemProps[]) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-
-function App() {
-  const [cells] = useState([
-    { id: 'cell1', title: 'CELL A' },
-    { id: 'cell2', title: 'CELL B' },
-    { id: 'cell3', title: 'CELL C' },
-    { id: 'cell4', title: 'CELL D' },
-    { id: 'cell5', title: 'CELL E' },
-    { id: 'cell6', title: 'CELL F' },
-    { id: 'cell7', title: 'CELL G' },
-    { id: 'cell8', title: 'CELL H' },
-    { id: 'cell9', title: 'CELL I' },
-    { id: 'cell10', title: 'CELL J' },
-    { id: 'cell11', title: 'CELL K' },
-    { id: 'cell12', title: 'CELL L' },
-  ]);
-
-  const [cards, setCards] = useState<DraggableItemProps[]>(shuffleArray([
-    { id: 'card1', value: 'der', content: <span>der</span>, cellId: 'cell1' },
-    { id: 'card2', value: 'den', content: <span>de<b style={{ backgroundColor: 'lightsalmon' }}>n</b></span>, cellId: 'cell2' },
-    { id: 'card3', value: 'dem', content: <span><b style={{ backgroundColor: 'lightsalmon' }}>dem</b></span>, cellId: 'cell3' },
-    { id: 'card4', value: 'die', content: <span>die</span>, cellId: 'cell4' },
-    { id: 'card5', value: 'die', content: <span>die</span>, cellId: 'cell5' },
-    { id: 'card6', value: 'der', content: <span>de<b style={{ backgroundColor: 'lightsalmon' }}>r</b></span>, cellId: 'cell6' },
-    { id: 'card7', value: 'das', content: <span>das</span>, cellId: 'cell7' },
-    { id: 'card8', value: 'das', content: <span>das</span>, cellId: 'cell8' },
-    { id: 'card9', value: 'dem', content: <span>de<b style={{ backgroundColor: 'lightsalmon' }}>m</b></span>, cellId: 'cell9' },
-    { id: 'card10', value: 'die', content: <span>die</span>, cellId: 'cell10' },
-    { id: 'card11', value: 'die', content: <span>die</span>, cellId: 'cell11' },
-    { id: 'card12', value: 'den+n', content: <span>de<b style={{ backgroundColor: 'lightsalmon' }}>n + n</b></span>, cellId: 'cell12' },
-  ]));
-
-  const [parent, setParent] = useState<UniqueIdentifier | null>(null);
+const App = () => {
+  const [cells, setCells] = useState<Cell[]>(GAME_CELLS);
+  const [cards, setCards] = useState<Card[]>(shuffleArray(GAME_CARDS));
   const [isDragging, setIsDragging] = useState(false);
+  const [showResult, setShowResult] = useState(false)
+
+  const handleShuffle = () => {
+    setCards([...shuffleArray(cards)])
+  }
+
+  const handleCorrectResult = () => {
+    const newCells = cells.map(cell => {
+      const card = cards.find(card => card.cellId === cell.id)
+
+      cell.isValueCorrect = cell.answer === card?.value
+
+      return cell
+    })
+
+    setCells(newCells)
+    setShowResult(true)
+  }
 
   const handleDropItem = ({ active, over }: DragEndEvent) => {
     console.log('active, over', active, over)
@@ -86,13 +69,12 @@ function App() {
 
   return (
     <div>
-      <h1>DER DIE DAS DEM {parent}</h1>
+      <h1>DER DIE DAS DEM</h1>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <DndContext
           onDragStart={() => setIsDragging(true)}
           onDragEnd={event => {
             handleDropItem(event)
-            setParent(event.over ? event.over.id : null);
             setIsDragging(false);
           }}
           onDragCancel={() => setIsDragging(false)}
@@ -101,64 +83,69 @@ function App() {
             {cards.map((card) => {
               if (card.cellId) return null
 
-              return <DraggableItem {...card} />
+              return <DraggableItem card={card} showResult={showResult} />
             })}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', border: '1px solid black' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
 
             {cells.map(cell => {
               const cellCards = cards.filter(card => card.cellId === cell.id);
 
               return (
-                <Droppable key={cell.id} id={cell.id} dragging={isDragging}>
+                <Droppable key={cell.id} cell={cell} dragging={isDragging} showResult={showResult}>
                   <span>{cell.title}</span>
 
                   {cellCards.map(card => (
-                    <DraggableItem {...card} />
+                    <DraggableItem card={card} showResult={showResult} />
                   ))}
                 </Droppable>
               )
             })}
           </div>
+
           <DraggableOverlay />
         </DndContext>
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Nom.</th>
-              <th>Akk.</th>
-              <th>Dat.</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><b>Mask.</b></td>
-              <td>der</td>
-              <td>de<b>n</b></td>
-              <td><b>dem</b></td>
-            </tr>
-            <tr>
-              <td><b>Fem.</b></td>
-              <td>die</td>
-              <td>die</td>
-              <td>de<b>r</b></td>
-            </tr>
-            <tr>
-              <td><b>Neutr.</b></td>
-              <td>das</td>
-              <td>das</td>
-              <td>da<b>m</b></td>
-            </tr>
-            <tr>
-              <td><b>Plural</b></td>
-              <td>die</td>
-              <td>die</td>
-              <td>de<b>n + n</b></td>
-            </tr>
-          </tbody>
-        </table>
+        <div>
+          <button onClick={handleShuffle}>SHUFFLE</button>
+          <button onClick={handleCorrectResult}>CHECK RESULT</button>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Nom.</th>
+                <th>Akk.</th>
+                <th>Dat.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Mask.</b></td>
+                <td>der</td>
+                <td>de<b>n</b></td>
+                <td><b>dem</b></td>
+              </tr>
+              <tr>
+                <td><b>Fem.</b></td>
+                <td>die</td>
+                <td>die</td>
+                <td>de<b>r</b></td>
+              </tr>
+              <tr>
+                <td><b>Neutr.</b></td>
+                <td>das</td>
+                <td>das</td>
+                <td>da<b>m</b></td>
+              </tr>
+              <tr>
+                <td><b>Plural</b></td>
+                <td>die</td>
+                <td>die</td>
+                <td>de<b>n + n</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )

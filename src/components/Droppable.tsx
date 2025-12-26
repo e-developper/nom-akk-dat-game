@@ -1,24 +1,26 @@
 import React from 'react';
-import { useDroppable, type UniqueIdentifier } from '@dnd-kit/core';
+import { useDroppable } from '@dnd-kit/core';
 import classNames from 'classnames';
 
 import styles from './Droppable.module.css';
+import type { Cell } from '../constants';
 
 interface Props {
   children: React.ReactNode;
   dragging: boolean;
-  id: UniqueIdentifier;
+  cell: Cell
+  showResult: boolean
 }
 
-function Droppable({ children, id, dragging }: Props) {
-  const { isOver, setNodeRef } = useDroppable({
-    id,
-  });
+function Droppable({ children, cell, dragging, showResult }: Props) {
+  const { isOver, setNodeRef } = useDroppable({ id: cell.id, disabled: showResult });
 
   return (
     <div
       ref={setNodeRef}
       className={classNames(
+        { 'correct-answer': cell.isValueCorrect && showResult },
+        { 'not-correct-answer': !cell.isValueCorrect && showResult },
         styles.Droppable,
         isOver && styles.over,
         dragging && styles.dragging,

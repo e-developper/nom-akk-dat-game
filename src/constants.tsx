@@ -1,0 +1,105 @@
+import type { ReactNode } from 'react'
+
+export type Cell = {
+  id: string
+  title: string
+  answer: string
+  isValueCorrect?: boolean
+}
+
+export type Card = {
+  id: string
+  value: string
+  content: ReactNode
+  cellId?: string
+}
+
+export const GAME_CELLS: Cell[] = [
+  { id: 'cell1', title: 'CELL A', answer: 'der' },
+  { id: 'cell2', title: 'CELL B', answer: 'den' },
+  { id: 'cell3', title: 'CELL C', answer: 'dem' },
+  { id: 'cell4', title: 'CELL D', answer: 'die' },
+  { id: 'cell5', title: 'CELL E', answer: 'die' },
+  { id: 'cell6', title: 'CELL F', answer: 'der' },
+  { id: 'cell7', title: 'CELL G', answer: 'das' },
+  { id: 'cell8', title: 'CELL H', answer: 'das' },
+  { id: 'cell9', title: 'CELL I', answer: 'dem' },
+  { id: 'cell10', title: 'CELL J', answer: 'die' },
+  { id: 'cell11', title: 'CELL K', answer: 'die' },
+  { id: 'cell12', title: 'CELL L', answer: 'den+n' },
+]
+
+export const GAME_CARDS: Card[] = [
+  {
+    id: 'card1',
+    value: 'der',
+    content: <span>der </span>,
+    // cellId: 'cell1'
+  },
+  {
+    id: 'card2',
+    value: 'den',
+    content: <span>de <b style={{ backgroundColor: 'lightsalmon' }}> n </b></span >,
+    // cellId: 'cell2'
+  },
+  {
+    id: 'card3',
+    value: 'dem',
+    content: <span><b style={{ backgroundColor: 'lightsalmon' }}> dem </b></span >,
+    // cellId: 'cell3'
+  },
+  {
+    id: 'card4',
+    value: 'die',
+    content: <span>die </span>,
+    // cellId: 'cell4'
+  },
+  {
+    id: 'card5',
+    value: 'die',
+    content: <span>die </span>,
+    // cellId: 'cell5'
+  },
+  {
+    id: 'card6',
+    value: 'der',
+    content: <span>de <b style={{ backgroundColor: 'lightsalmon' }}> r </b></span >,
+    // cellId: 'cell6'
+  },
+  {
+    id: 'card7',
+    value: 'das',
+    content: <span>das </span>,
+    // cellId: 'cell7'
+  },
+  {
+    id: 'card8',
+    value: 'das',
+    content: <span>das </span>,
+    // cellId: 'cell8'
+  },
+  {
+    id: 'card9',
+    value: 'dem',
+    content: <span>de <b style={{ backgroundColor: 'lightsalmon' }}> m </b></span >,
+    // cellId: 'cell9'
+  },
+  {
+    id: 'card10',
+    value: 'die',
+    content: <span>die </span>,
+    // cellId: 'cell10'
+  },
+  {
+    id: 'card11',
+    value: 'die',
+    content: <span>die </span>,
+    // cellId: 'cell11'
+  },
+  {
+    id: 'card12',
+    value: 'den+n',
+    content: <span>de <b style={{ backgroundColor: 'lightsalmon' }}> n + n </b></span >,
+    // cellId: 'cell12'
+  },
+]
