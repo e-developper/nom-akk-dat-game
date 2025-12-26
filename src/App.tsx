@@ -4,6 +4,7 @@ import { Draggable, DraggableOverlay, Droppable } from './components';
 
 type DraggableItemProps = {
   id: string
+  value: string
   content: ReactNode
   cellId?: string
 }
@@ -25,6 +26,14 @@ function DraggableItem({ id, content }: DraggableItemProps) {
   );
 }
 
+function shuffleArray(array: DraggableItemProps[]) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 function App() {
   const [cells] = useState([
     { id: 'cell1', title: 'CELL A' },
@@ -41,20 +50,21 @@ function App() {
     { id: 'cell12', title: 'CELL L' },
   ]);
 
-  const [cards, setCards] = useState([
-    { id: 'card1', content: <span>der</span>, cellId: 'cell1' },
-    { id: 'card2', content: <span>de<b style={{ backgroundColor: 'lightsalmon' }}>n</b></span>, cellId: 'cell2' },
-    { id: 'card3', content: <span><b style={{ backgroundColor: 'lightsalmon' }}>dem</b></span>, cellId: 'cell3' },
-    { id: 'card4', content: <span>die</span>, cellId: 'cell4' },
-    { id: 'card5', content: <span>die</span>, cellId: 'cell5' },
-    { id: 'card6', content: <span>de<b style={{ backgroundColor: 'lightsalmon' }}>r</b></span>, cellId: 'cell6' },
-    { id: 'card7', content: <span>das</span>, cellId: 'cell7' },
-    { id: 'card8', content: <span>das</span>, cellId: 'cell8' },
-    { id: 'card9', content: <span>de<b style={{ backgroundColor: 'lightsalmon' }}>m</b></span>, cellId: 'cell9' },
-    { id: 'card10', content: <span>die</span>, cellId: 'cell10' },
-    { id: 'card11', content: <span>die</span>, cellId: 'cell11' },
-    { id: 'card12', content: <span>de<b style={{ backgroundColor: 'lightsalmon' }}>n + n</b></span>, cellId: 'cell12' },
-  ]);
+  const [cards, setCards] = useState<DraggableItemProps[]>(shuffleArray([
+    { id: 'card1', value: 'der', content: <span>der</span>, cellId: 'cell1' },
+    { id: 'card2', value: 'den', content: <span>de<b style={{ backgroundColor: 'lightsalmon' }}>n</b></span>, cellId: 'cell2' },
+    { id: 'card3', value: 'dem', content: <span><b style={{ backgroundColor: 'lightsalmon' }}>dem</b></span>, cellId: 'cell3' },
+    { id: 'card4', value: 'die', content: <span>die</span>, cellId: 'cell4' },
+    { id: 'card5', value: 'die', content: <span>die</span>, cellId: 'cell5' },
+    { id: 'card6', value: 'der', content: <span>de<b style={{ backgroundColor: 'lightsalmon' }}>r</b></span>, cellId: 'cell6' },
+    { id: 'card7', value: 'das', content: <span>das</span>, cellId: 'cell7' },
+    { id: 'card8', value: 'das', content: <span>das</span>, cellId: 'cell8' },
+    { id: 'card9', value: 'dem', content: <span>de<b style={{ backgroundColor: 'lightsalmon' }}>m</b></span>, cellId: 'cell9' },
+    { id: 'card10', value: 'die', content: <span>die</span>, cellId: 'cell10' },
+    { id: 'card11', value: 'die', content: <span>die</span>, cellId: 'cell11' },
+    { id: 'card12', value: 'den+n', content: <span>de<b style={{ backgroundColor: 'lightsalmon' }}>n + n</b></span>, cellId: 'cell12' },
+  ]));
+
   const [parent, setParent] = useState<UniqueIdentifier | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -64,7 +74,6 @@ function App() {
     if (cards.some(card => card.cellId === over?.id) && Boolean(over)) return
 
     const newCards = cards.map((card) => {
-      debugger
       if (card.id === active.id) {
         return { ...card, cellId: over?.id as string }
       }
@@ -88,7 +97,7 @@ function App() {
           }}
           onDragCancel={() => setIsDragging(false)}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             {cards.map((card) => {
               if (card.cellId) return null
 
