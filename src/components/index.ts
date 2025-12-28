@@ -1,5 +1,5 @@
-import Draggable from './Draggable';
-import Droppable from './Droppable';
-import DraggableOverlay from './DraggableOverlay';
+import Draggable from './draggable';
+import Droppable from './droppable';
+import DraggableOverlay from './draggableOverlay';
 
 export { Draggable, Droppable, DraggableOverlay }

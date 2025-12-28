@@ -4,7 +4,7 @@ import { DragOverlay, useDndContext } from '@dnd-kit/core';
 import type { DropAnimation } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 
-import Draggable from './Draggable';
+import Draggable from '../draggable';
 
 const dropAnimationConfig: DropAnimation = {
   keyframes({ transform }) {
@@ -51,19 +51,19 @@ const dropAnimationConfig: DropAnimation = {
 };
 
 interface Props {
-  axis?: ComponentProps<typeof Draggable>['axis'];
   dropAnimation?: DropAnimation | null;
 }
 
 function DraggableOverlay({
-  axis,
   dropAnimation = dropAnimationConfig,
 }: Props) {
-  const { active } = useDndContext();
+  const { activeNode } = useDndContext();
+
+
 
   return createPortal(
     <DragOverlay dropAnimation={dropAnimation}>
-      {active ? <Draggable axis={axis} dragging dragOverlay /> : null}
+      {activeNode ? <Draggable dragOverlay>{activeNode?.textContent.replace(/ /g, '')}</Draggable> : null}
     </DragOverlay>,
     document.body
   );

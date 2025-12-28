@@ -1,5 +1,5 @@
 import { useDraggable } from '@dnd-kit/core';
-import Draggable from '../Draggable';
+import Draggable from '../draggable';
 import type { Card } from '../../constants';
 
 export type DraggableItemProps = {
@@ -14,12 +14,9 @@ const DraggableItem = ({ card, showResult }: DraggableItemProps) => {
 
   return (
     <Draggable
-      dragging={isDragging}
+      isDragging={isDragging}
       ref={setNodeRef}
       listeners={listeners}
-      style={{
-        opacity: isDragging ? 0 : undefined,
-      }}
     >{card.content}</Draggable>
   );
 }

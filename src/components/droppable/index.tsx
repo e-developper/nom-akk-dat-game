@@ -1,33 +1,31 @@
-import React from 'react';
+import { type ReactNode } from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import classNames from 'classnames';
 
-import styles from './Droppable.module.css';
-import type { Cell } from '../constants';
+import type { Cell } from '../../constants';
+import './style.css';
 
-interface Props {
-  children: React.ReactNode;
+type DroppableProps = {
+  children: ReactNode;
   dragging: boolean;
   cell: Cell
   showResult: boolean
 }
 
-function Droppable({ children, cell, dragging, showResult }: Props) {
+function Droppable({ children, cell, dragging, showResult }: DroppableProps) {
   const { isOver, setNodeRef } = useDroppable({ id: cell.id, disabled: showResult });
 
   return (
     <div
       ref={setNodeRef}
-      className={classNames(
+      className={classNames('droppable',
         { 'correct-answer': cell.isValueCorrect && showResult },
         { 'not-correct-answer': !cell.isValueCorrect && showResult },
-        styles.Droppable,
-        isOver && styles.over,
-        dragging && styles.dragging,
-        children && styles.dropped
+        { 'over': isOver },
+        { 'dragging': dragging },
+        { 'dropped': children }
       )}
       aria-label="Droppable region"
-      style={{ display: 'flex', flexDirection: 'column' }}
     >
       {children}
     </div>
