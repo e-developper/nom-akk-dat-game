@@ -29,6 +29,20 @@ export const GAME_CELLS: Cell[] = [
   { id: 'cell12', title: 'CELL L', answer: 'den+n' },
 ]
 
+export const GAME_CELLS_HEADER = [
+  { id: 'header0', title: '' },
+  { id: 'header1', title: 'Nominativ' },
+  { id: 'header2', title: 'Akkusativ' },
+  { id: 'header3', title: 'Dativ' }
+]
+
+export const GAME_CELLS_LINES_NAMES = [
+  { id: 'lineName1', title: 'Maskulinum' },
+  { id: 'lineName2', title: 'Femininum' },
+  { id: 'lineName3', title: 'Neutrum' },
+  { id: 'lineName4', title: 'Plural' }
+]
+
 export const GAME_CARDS: Card[] = [
   {
     id: 'card1',

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { DndContext, useDraggable, type DragEndEvent } from '@dnd-kit/core';
 import { Draggable, DraggableOverlay, Droppable } from './components';
 import { shuffleArray } from './utils';
-import { GAME_CARDS, GAME_CELLS, type Card, type Cell } from './constants';
+import { GAME_CARDS, GAME_CELLS, GAME_CELLS_HEADER, GAME_CELLS_LINES_NAMES, type Card, type Cell } from './constants';
 
 import './App.css'
 
@@ -31,6 +31,7 @@ function DraggableItem({ card, showResult }: DraggableItemProps) {
 const App = () => {
   const [cells, setCells] = useState<Cell[]>(GAME_CELLS);
   const [cards, setCards] = useState<Card[]>(shuffleArray(GAME_CARDS));
+  const [showTable, setShowTable] = useState(false)
   const [isDragging, setIsDragging] = useState(false);
   const [showResult, setShowResult] = useState(false)
 
@@ -52,8 +53,6 @@ const App = () => {
   }
 
   const handleDropItem = ({ active, over }: DragEndEvent) => {
-    console.log('active, over', active, over)
-
     if (cards.some(card => card.cellId === over?.id) && Boolean(over)) return
 
     const newCards = cards.map((card) => {
@@ -83,11 +82,25 @@ const App = () => {
             {cards.map((card) => {
               if (card.cellId) return null
 
-              return <DraggableItem card={card} showResult={showResult} />
+              return <DraggableItem key={card.id} card={card} showResult={showResult} />
             })}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px' }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr',
+            gap: '16px',
+            gridTemplateAreas: `
+            'header0 header1 header2 header3'
+            'lineName1 cell cell cell'
+            'lineName2 cell cell cell'
+            'lineName3 cell cell cell'
+            'lineName4 cell cell cell'
+            `
+
+          }}>
+            {GAME_CELLS_HEADER.map(header => <b key={header.id} style={{ gridArea: header.id }}>{header.title}</b>)}
+            {GAME_CELLS_LINES_NAMES.map(lineName => <b key={lineName.id} style={{ gridArea: lineName.id, textAlign: 'center', alignContent: 'center' }}>{lineName.title}</b>)}
 
             {cells.map(cell => {
               const cellCards = cards.filter(card => card.cellId === cell.id);
@@ -109,42 +122,45 @@ const App = () => {
         <div>
           <button onClick={handleShuffle}>SHUFFLE</button>
           <button onClick={handleCorrectResult}>CHECK RESULT</button>
-          <table>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Nom.</th>
-                <th>Akk.</th>
-                <th>Dat.</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><b>Mask.</b></td>
-                <td>der</td>
-                <td>de<b>n</b></td>
-                <td><b>dem</b></td>
-              </tr>
-              <tr>
-                <td><b>Fem.</b></td>
-                <td>die</td>
-                <td>die</td>
-                <td>de<b>r</b></td>
-              </tr>
-              <tr>
-                <td><b>Neutr.</b></td>
-                <td>das</td>
-                <td>das</td>
-                <td>da<b>m</b></td>
-              </tr>
-              <tr>
-                <td><b>Plural</b></td>
-                <td>die</td>
-                <td>die</td>
-                <td>de<b>n + n</b></td>
-              </tr>
-            </tbody>
-          </table>
+          <button onClick={() => setShowTable(!showTable)}>TOGGLE RESULT TABLE</button>
+          {showTable && (
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Nom.</th>
+                  <th>Akk.</th>
+                  <th>Dat.</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Mask.</b></td>
+                  <td>der</td>
+                  <td>de<b>n</b></td>
+                  <td><b>dem</b></td>
+                </tr>
+                <tr>
+                  <td><b>Fem.</b></td>
+                  <td>die</td>
+                  <td>die</td>
+                  <td>de<b>r</b></td>
+                </tr>
+                <tr>
+                  <td><b>Neutr.</b></td>
+                  <td>das</td>
+                  <td>das</td>
+                  <td>da<b>m</b></td>
+                </tr>
+                <tr>
+                  <td><b>Plural</b></td>
+                  <td>die</td>
+                  <td>die</td>
+                  <td>de<b>n + n</b></td>
+                </tr>
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>
