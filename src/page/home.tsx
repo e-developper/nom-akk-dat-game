@@ -6,6 +6,7 @@ const Home = () => {
   return (
     <div>
       <button onClick={() => navigate('/simple')}>Simple Version</button>
+      <button onClick={() => navigate('/complete')}>Complete Version</button>
     </div>
   )
 }

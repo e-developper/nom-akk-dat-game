@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router';
+import {HashRouter, Route, Routes } from 'react-router';
 import { useState } from 'react';
 import SimpleGame from './page/simpleGame';
 import Home from './page/home';
@@ -12,9 +12,9 @@ const App = () => {
   const [showTable, setShowTable] = useState(false)
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="game">
-        <h1 className="title">Die Artikel Spiele</h1>
+        <h1 className="title">Die Artikel Spiele - 1</h1>
         <div className="container">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -65,7 +65,7 @@ const App = () => {
           </div>
         </div>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   )
 
 }
