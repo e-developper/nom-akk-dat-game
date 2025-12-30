@@ -3,9 +3,9 @@ import { DndContext, type DragEndEvent } from '@dnd-kit/core';
 import { DraggableOverlay, Droppable } from './components';
 import { shuffleArray } from './utils';
 import { GAME_CARDS, GAME_CELLS, GAME_CELLS_HEADER, GAME_CELLS_LINES_NAMES, type Card, type Cell } from './constants';
+import DraggableItem from './components/draggableItem';
 
 import './App.css'
-import DraggableItem from './components/draggableItem';
 
 
 const rdnCards = shuffleArray(GAME_CARDS)
@@ -55,9 +55,9 @@ const App = () => {
   }
 
   return (
-    <div>
-      <h1>Dir Artikel Spiele</h1>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <div className="game">
+      <h1>Die Artikel Spiele</h1>
+      <div className="container">
         <DndContext
           onDragStart={() => setIsDragging(true)}
           onDragEnd={event => {
@@ -66,7 +66,7 @@ const App = () => {
           }}
           onDragCancel={() => setIsDragging(false)}
         >
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div className="non-classified-items">
             {cards.map((card) => {
               if (card.cellId) return null
 
@@ -74,22 +74,10 @@ const App = () => {
             })}
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr 1fr',
-              gap: '16px',
-              gridTemplateAreas: `
-                'header0 header1 header2 header3'
-                'lineName1 cell cell cell'
-                'lineName2 cell cell cell'
-                'lineName3 cell cell cell'
-                'lineName4 cell cell cell'
-              `
-
-            }}>
-              {GAME_CELLS_HEADER.map(header => <b key={header.id} style={{ gridArea: header.id }}>{header.title}</b>)}
-              {GAME_CELLS_LINES_NAMES.map(lineName => <b key={lineName.id} style={{ gridArea: lineName.id, textAlign: 'center', alignContent: 'center' }}>{lineName.title}</b>)}
+          <div className="body">
+            <div className="table">
+              {GAME_CELLS_HEADER.map((header, index) => <b key={header.id} className={`header-${index}`}>{header.title}</b>)}
+              {GAME_CELLS_LINES_NAMES.map((lineName, index) => <b key={lineName.id} className={`line line-name-${index}`}>{lineName.title}</b>)}
 
               {cells.map(cell => {
                 const cellCards = cards.filter(card => card.cellId === cell.id);
@@ -105,7 +93,7 @@ const App = () => {
                 )
               })}
             </div>
-            <footer style={{ display: 'flex', justifyContent: 'end', gap: '16px' }}>
+            <footer className="footer">
               <button onClick={handleResetGame}>Reset Game</button>
               <button onClick={handleCorrectResult}>Finish game</button>
             </footer>

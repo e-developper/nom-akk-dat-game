@@ -1,27 +1,78 @@
-.content {
-  display: flex;
-  min-height: 100vh;
-  line-height: 1.1;
-  text-align: center;
-  flex-direction: column;
-  justify-content: center;
-}
+.game {
+  .container {
+    display: flex;
+    justify-content: space-between
+  }
 
-.content h1 {
-  font-size: 3.6rem;
-  font-weight: 700;
-}
+  .non-classified-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
 
-.content p {
-  font-size: 1.2rem;
-  font-weight: 400;
-  opacity: 0.5;
-}
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 
-.correct-answer {
-  border: 2px solid green;
-}
+  .table {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    grid-template-areas:
+      "header0 header1 header2 header3"
+      "lineName0 cell cell cell"
+      "lineName1 cell cell cell"
+      "lineName2 cell cell cell"
+      "lineName3 cell cell cell"
+    ;
+  }
 
-.not-correct-answer {
-  border: 2px solid red;
+  .header-0 {
+    grid-area: header0;
+  }
+
+  .header-1 {
+    grid-area: header1;
+  }
+
+  .header-2 {
+    grid-area: header2;
+  }
+
+  .header-3 {
+    grid-area: header3;
+  }
+
+  .line-name-0 {
+    grid-area: lineName0;
+  }
+
+  .line-name-1 {
+    grid-area: lineName1;
+  }
+
+  .line-name-2 {
+    grid-area: lineName2;
+  }
+
+  .line-name-3 {
+    grid-area: lineName3;
+  }
+
+  .line {
+    text-align: center;
+    align-content: center;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: end;
+    gap: 16px;
+  }
+
+  .highlight-article {
+    background-color: lightsalmon;
+  }
 }

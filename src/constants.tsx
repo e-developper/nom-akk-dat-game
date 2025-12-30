@@ -47,73 +47,61 @@ export const GAME_CARDS: Card[] = [
   {
     id: 'card1',
     value: 'der',
-    content: <span>der </span>,
-    // cellId: 'cell1'
+    content: <span>der </span>
   },
   {
     id: 'card2',
     value: 'den',
-    content: <span>de <b style={{ backgroundColor: 'lightsalmon' }}> n </b></span >,
-    // cellId: 'cell2'
+    content: <span>de <b className="highlight-article"> n </b></span >
   },
   {
     id: 'card3',
     value: 'dem',
-    content: <span><b style={{ backgroundColor: 'lightsalmon' }}> dem </b></span >,
-    // cellId: 'cell3'
+    content: <b className="highlight-article"> dem </b>
   },
   {
     id: 'card4',
     value: 'die',
-    content: <span>die </span>,
-    // cellId: 'cell4'
+    content: <span>die </span>
   },
   {
     id: 'card5',
     value: 'die',
-    content: <span>die </span>,
-    // cellId: 'cell5'
+    content: <span>die </span>
   },
   {
     id: 'card6',
     value: 'der',
-    content: <span>de <b style={{ backgroundColor: 'lightsalmon' }}> r </b></span >,
-    // cellId: 'cell6'
+    content: <span>de <b className="highlight-article"> r </b></span >
   },
   {
     id: 'card7',
     value: 'das',
-    content: <span>das </span>,
-    // cellId: 'cell7'
+    content: <span>das </span>
   },
   {
     id: 'card8',
     value: 'das',
-    content: <span>das </span>,
-    // cellId: 'cell8'
+    content: <span>das </span>
   },
   {
     id: 'card9',
     value: 'dem',
-    content: <span>de <b style={{ backgroundColor: 'lightsalmon' }}> m </b></span >,
-    // cellId: 'cell9'
+    content: <span>de <b className="highlight-article"> m </b></span >
   },
   {
     id: 'card10',
     value: 'die',
-    content: <span>die </span>,
-    // cellId: 'cell10'
+    content: <span>die </span>
   },
   {
     id: 'card11',
     value: 'die',
-    content: <span>die </span>,
-    // cellId: 'cell11'
+    content: <span>die </span>
   },
   {
     id: 'card12',
     value: 'den+n',
-    content: <span>de <b style={{ backgroundColor: 'lightsalmon' }}> n + n </b></span >,
-    // cellId: 'cell12'
+    content: <span>de <b className="highlight-article"> n + n </b></span >
   },
 ]
