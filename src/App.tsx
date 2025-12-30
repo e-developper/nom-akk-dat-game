@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router';
 import { useState } from 'react';
 import SimpleGame from './page/simpleGame';
+import Home from './page/home';
 
 import './App.css'
 
@@ -16,9 +17,8 @@ const App = () => {
         <h1 className="title">Die Artikel Spiele</h1>
         <div className="container">
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/simple" element={<SimpleGame />} />
-          </Routes>
-          <Routes>
             <Route path="/complete" element={<span>complete</span>} />
           </Routes>
           <div>
