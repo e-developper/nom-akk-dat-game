@@ -88,6 +88,18 @@
     animation-direction: alternate;
   }
 
+  &.selected {
+    >button {
+      box-shadow: 0 0 0 3px #f5a623;
+    }
+  }
+
+  &.locked {
+    >button {
+      cursor: default;
+    }
+  }
+
   &.dragging {
     background-color: gray !important;
     z-index: 1;

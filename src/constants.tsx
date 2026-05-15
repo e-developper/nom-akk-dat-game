@@ -4,6 +4,7 @@ export type Cell = {
   id: string
   title: string
   answer: string
+  row: number
   isValueCorrect?: boolean
 }
 
@@ -12,21 +13,22 @@ export type Card = {
   value: string
   content: ReactNode
   cellId?: string
+  playedBy?: 1 | 2
 }
 
 export const GAME_CELLS: Cell[] = [
-  { id: 'cell1', title: 'CELL A', answer: 'der' },
-  { id: 'cell2', title: 'CELL B', answer: 'den' },
-  { id: 'cell3', title: 'CELL C', answer: 'dem' },
-  { id: 'cell4', title: 'CELL D', answer: 'die' },
-  { id: 'cell5', title: 'CELL E', answer: 'die' },
-  { id: 'cell6', title: 'CELL F', answer: 'der' },
-  { id: 'cell7', title: 'CELL G', answer: 'das' },
-  { id: 'cell8', title: 'CELL H', answer: 'das' },
-  { id: 'cell9', title: 'CELL I', answer: 'dem' },
-  { id: 'cell10', title: 'CELL J', answer: 'die' },
-  { id: 'cell11', title: 'CELL K', answer: 'die' },
-  { id: 'cell12', title: 'CELL L', answer: 'den+n' },
+  { id: 'cell1',  title: 'CELL A', answer: 'der',   row: 1 },
+  { id: 'cell2',  title: 'CELL B', answer: 'den',   row: 1 },
+  { id: 'cell3',  title: 'CELL C', answer: 'dem',   row: 1 },
+  { id: 'cell4',  title: 'CELL D', answer: 'die',   row: 2 },
+  { id: 'cell5',  title: 'CELL E', answer: 'die',   row: 2 },
+  { id: 'cell6',  title: 'CELL F', answer: 'der',   row: 2 },
+  { id: 'cell7',  title: 'CELL G', answer: 'das',   row: 3 },
+  { id: 'cell8',  title: 'CELL H', answer: 'das',   row: 3 },
+  { id: 'cell9',  title: 'CELL I', answer: 'dem',   row: 3 },
+  { id: 'cell10', title: 'CELL J', answer: 'die',   row: 4 },
+  { id: 'cell11', title: 'CELL K', answer: 'die',   row: 4 },
+  { id: 'cell12', title: 'CELL L', answer: 'den+n', row: 4 },
 ]
 
 export const GAME_CELLS_HEADER = [

@@ -1,4 +1,4 @@
-import { forwardRef, type ReactNode } from 'react';
+import { forwardRef, type ReactNode, type PointerEventHandler } from 'react';
 import classNames from 'classnames';
 import type { DraggableSyntheticListeners } from '@dnd-kit/core';
 
@@ -17,6 +17,11 @@ type DraggableProps = {
   label?: string;
   handle?: boolean;
   listeners?: DraggableSyntheticListeners;
+  hidden?: boolean;
+  selected?: boolean;
+  locked?: boolean;
+  onPointerDown?: PointerEventHandler<HTMLDivElement>;
+  onPointerUp?: PointerEventHandler<HTMLDivElement>;
 }
 
 const Draggable = forwardRef<HTMLButtonElement, DraggableProps>(
@@ -27,7 +32,12 @@ const Draggable = forwardRef<HTMLButtonElement, DraggableProps>(
       label,
       handle,
       listeners,
-      ...props
+      hidden,
+      selected,
+      locked,
+      children,
+      onPointerDown,
+      onPointerUp,
     },
     ref
   ) {
@@ -37,22 +47,24 @@ const Draggable = forwardRef<HTMLButtonElement, DraggableProps>(
           'draggable',
           { 'dragOverlay': dragOverlay },
           { 'dragging': isDragging },
+          { 'selected': selected },
+          { 'locked': locked },
         )}
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
       >
         <button
           aria-label="Draggable"
           data-cypress="draggable-item"
           {...(handle ? {} : listeners)}
           ref={ref}
-          {...props}
         >
-          {props.children}
+          {hidden ? '?' : children}
         </button>
         {label && <label>{label}</label>}
       </div>
     );
   }
 );
-
 
 export default Draggable
