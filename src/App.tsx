@@ -16,7 +16,7 @@ const App = () => {
             <Route path="/simple" element={<SimpleGame />} />
             <Route path="/complete/:players" element={<CompleteGame />} />
           </Routes>
-          {true &&
+          {false &&
             <table>
               <thead>
                 <tr>
